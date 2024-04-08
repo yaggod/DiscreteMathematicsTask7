@@ -1,7 +1,7 @@
 ﻿from random import *
 
 
-def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance, ):
+def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance):
     graph = []
     targetDegree = (expectedDegreeMin + expectedDegreeMax) / 2
     nonZeroElementChance = targetDegree / size
@@ -9,7 +9,7 @@ def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance, ):
     for i in range(size):
         graph.append([])
         for j in range(size):
-            if(i == j):
+            if (i == j):
                 continue
             
             shouldBeNonZero = (random() < nonZeroElementChance)
@@ -37,7 +37,7 @@ def getGraphDegree(graph):
 
 
 
-graph = createGraph(1200, 10, 1000, 100)
+graph = createGraph(1200, 10, 100, 100)
 # for row in graph:
 #    print(row)
 
