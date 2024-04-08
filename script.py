@@ -1,21 +1,22 @@
-﻿from random import *
+﻿from random import uniform
+
 
 def main():
     maxDistance = 1000
     graph = createGraph(50000, 10, 100, maxDistance)
     addCompleteGraph(graph, 6, maxDistance)
     print(getGraphDegree(graph))
-    
+
     print(dijkstraAlgorithm(graph, 0)[1])
     print(bellmanFordAlgorithm(graph, 0)[1])
 
 
 def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance):
     graph = [[0 for j in range(size)] for i in range(size)]
-    for i  in range(size):
+    for i in range(size):
         lastIndex = i + 1
         nonZeroElementsInRow = int(min(uniform(expectedDegreeMin / 2, expectedDegreeMax / 2), size - i - 1))
-        while(nonZeroElementsInRow > 0):
+        while (nonZeroElementsInRow > 0):
             lastIndex = int(uniform(lastIndex + 1, size - nonZeroElementsInRow - 1))
             graph[i][lastIndex] = uniform(1, maxDistance)
             graph[lastIndex][i] = uniform(1, maxDistance)
@@ -28,7 +29,7 @@ def addCompleteGraph(graph, completeGraphSize, maxDistance):
     positionToAddGraph = int(uniform(0, len(graph) - completeGraphSize))
     for i in range(positionToAddGraph, positionToAddGraph + completeGraphSize):
         for j in range(positionToAddGraph, positionToAddGraph + completeGraphSize):
-            if(i == j):
+            if (i == j):
                 continue
             graph[i][j] = int(uniform(1, maxDistance))
 
@@ -38,31 +39,31 @@ def getGraphDegree(graph):
     size = len(graph)
     for row in graph:
         for element in row:
-            if(element):
+            if (element):
                 totalDegree += 1
-    
+
     return totalDegree / size
-                
+
+
 def dijkstraAlgorithm(graph, originNode):
     totalIterationsCount = 0
 
-    result = { originNode : 0 }
+    result = {originNode: 0}
     queue = {}
     for i in range(len(graph)):
-        if(i == originNode):
+        if (i == originNode):
             queue[i] = 0
             continue
         queue[i] = float("inf")
-    
-    accessibleNodes = getAccessibleNodes(graph)
 
+    accessibleNodes = getAccessibleNodes(graph)
 
     while len(queue) > 0:
         closest = min(queue.items(), key=lambda x: x[1])
         node, mark = closest[0], closest[1]
         for secondNode in accessibleNodes[node]:
             totalIterationsCount += 1
-            if (not secondNode in queue):
+            if (secondNode not in queue):
                 continue
             path = graph[node][secondNode]
             queue[secondNode] = min(queue[secondNode], mark + path)
@@ -74,8 +75,8 @@ def dijkstraAlgorithm(graph, originNode):
 
 
 def bellmanFordAlgorithm(graph, originNode):
-    totalIterationsCount = 0 
- 
+    totalIterationsCount = 0
+
     result = []
     for i in range(len(graph)):
         if (i == originNode):
@@ -83,14 +84,14 @@ def bellmanFordAlgorithm(graph, originNode):
             continue
         result.append(float("inf"))
 
-    accessibleNodes =  getAccessibleNodes(graph)
+    accessibleNodes = getAccessibleNodes(graph)
     for i in range(len(graph)):
         for startingNode in range(len(graph)):
             for secondNode in accessibleNodes[startingNode]:
                 totalIterationsCount += 1
                 path = graph[startingNode][secondNode]
                 result[secondNode] = min(result[secondNode], result[startingNode] + path)
-    
+
     return (result, totalIterationsCount)
 
 
@@ -99,11 +100,9 @@ def getAccessibleNodes(graph):
     for currentNode in range(len(graph)):
         accessibleNodes.append([])
         for secondNode in range(len(graph)):
-            if(graph[currentNode][secondNode]):
+            if (graph[currentNode][secondNode]):
                 accessibleNodes[currentNode].append(secondNode)
     return accessibleNodes
-
-
 
 
 if __name__ == "__main__":
