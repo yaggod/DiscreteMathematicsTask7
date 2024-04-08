@@ -1,4 +1,4 @@
-﻿from random import *
+﻿from random import uniform
 
 def main():
     maxDistance = 1000
@@ -17,10 +17,12 @@ def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance):
         nonZeroElementsInRow = int(min(uniform(expectedDegreeMin / 2, expectedDegreeMax / 2), size - i - 1))
         while(nonZeroElementsInRow > 0):
             lastIndex = int(uniform(lastIndex + 1, size - nonZeroElementsInRow - 1))
-            graph[i][lastIndex] = uniform(1, maxDistance)
-            graph[lastIndex][i] = uniform(1, maxDistance)
+            graph[i][lastIndex] = int(uniform(1, maxDistance))
+            graph[lastIndex][i] = graph[i][lastIndex]
             nonZeroElementsInRow -= 1
-
+    for i in range(size - 1):
+        graph[i][i+1] = int(uniform(1, maxDistance))
+        graph[i+1][i] = graph[i][i+1]
     return graph
 
 
