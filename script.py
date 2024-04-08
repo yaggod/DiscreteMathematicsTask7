@@ -1,14 +1,25 @@
 ﻿from random import uniform
 
 def main():
+    createGraphAndPrintResults(1200)
+    createGraphAndPrintResults(3200)
+    createGraphAndPrintResults(8000)
+    createGraphAndPrintResults(20000)
+    createGraphAndPrintResults(50000)
+
+def createGraphAndPrintResults(graphSize):
     maxDistance = 1000
-    graph = createGraph(50000, 10, 100, maxDistance)
+    graph = createGraph(graphSize, 10, 100, maxDistance)
     addCompleteGraph(graph, 6, maxDistance)
-    print(getGraphDegree(graph))
 
-    print(dijkstraAlgorithm(graph, 0)[1])
-    print(bellmanFordAlgorithm(graph, 0)[1])
-
+    graphDegree = getGraphDegree(graph)
+    dijkstraIterations = dijkstraAlgorithm(graph, 0)[1]
+    bellmanFordIterations = bellmanFordAlgorithm(graph, 0)[1]
+    with open(f"{graphSize}_results.txt", "w+") as file:
+        file.write(f"Graph degree: {graphDegree}\n")
+        file.write(f"Dijkstra algorithm iterations count: {dijkstraIterations}\n")
+        file.write(f"Bellman-Ford algorithm iterations count: {bellmanFordIterations}\n")
+    
 
 def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance):
     graph = [[0 for j in range(size)] for i in range(size)]
