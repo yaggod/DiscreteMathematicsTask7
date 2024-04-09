@@ -1,11 +1,13 @@
 ﻿from random import uniform
 
+
 def main():
     createGraphAndPrintResults(1200)
     createGraphAndPrintResults(3200)
     createGraphAndPrintResults(8000)
     createGraphAndPrintResults(20000)
     createGraphAndPrintResults(50000)
+
 
 def createGraphAndPrintResults(graphSize):
     maxDistance = 1000
@@ -19,7 +21,7 @@ def createGraphAndPrintResults(graphSize):
         file.write(f"Graph degree: {graphDegree}\n")
         file.write(f"Dijkstra algorithm iterations count: {dijkstraIterations}\n")
         file.write(f"Bellman-Ford algorithm iterations count: {bellmanFordIterations}\n")
-    
+
 
 def createGraph(size, expectedDegreeMin, expectedDegreeMax, maxDistance):
     graph = [[0 for j in range(size)] for i in range(size)]
@@ -72,6 +74,7 @@ def dijkstraAlgorithm(graph, originNode):
 
     while len(queue) > 0:
         closest = min(queue.items(), key=lambda x: x[1])
+        totalIterationsCount += len(queue)
         node, mark = closest[0], closest[1]
         for secondNode in accessibleNodes[node]:
             totalIterationsCount += 1
